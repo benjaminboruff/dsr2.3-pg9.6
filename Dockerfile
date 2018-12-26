@@ -9,7 +9,7 @@ WORKDIR /app
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" >> /etc/apt/sources.list.d/pgdg.list \
     && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add --no-tty - \
     && apt-get update \
-    && apt-get install -y postgresql-9.6 \
+    && apt-get install -y libpq-dev postgresql-9.6 \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
