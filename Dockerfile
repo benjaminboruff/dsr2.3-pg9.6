@@ -5,7 +5,7 @@ FROM ruby:2.3
 # app directory
 WORKDIR /app
 
-# update
+# install postgres 9.6
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" >> /etc/apt/sources.list.d/pgdg.list \
     && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add --no-tty - \
     && apt-get update \
@@ -15,11 +15,13 @@ RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" >> /et
 
 USER postgres
 
+# change postgres db user's password and allow easy access from remote psql
 RUN /etc/init.d/postgresql start && \
     psql --command "ALTER USER postgres WITH PASSWORD 'postgres';" \
     && echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.6/main/pg_hba.conf \
     && echo "listen_addresses='*'" >> /etc/postgresql/9.6/main/postgresql.conf
 
+# allow traffic for postgres and rails development
 EXPOSE 5432 3000
 
 VOLUME  ["/var/lib/postgresql"]
