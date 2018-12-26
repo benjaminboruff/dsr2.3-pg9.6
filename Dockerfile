@@ -6,8 +6,7 @@ FROM ruby:2.3
 WORKDIR /app
 
 # update
-RUN apt-get update \
-    && echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" >> /etc/apt/sources.list.d/pgdg.list \
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" >> /etc/apt/sources.list.d/pgdg.list \
     && wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add --no-tty - \
     && apt-get update \
     && apt-get install -y postgresql-9.6 \
